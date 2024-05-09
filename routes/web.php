@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Backend\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/about', [LandingController::class, 'about'])->name('about');
+Route::get('/services', [LandingController::class, 'services'])->name('services');
+
+
+
+// Route untuk menampilkan form registrasi
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+// Route untuk menghandle proses registrasi
+Route::post('/register', [AuthController::class, 'register']);
+
+// Route untuk menampilkan form login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+// Route untuk menghandle proses login
+Route::post('/login', [AuthController::class, 'login']);
+
+// Route untuk menghandle proses logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Route untuk menampilkan form forgot password
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('forgot-password');
+// Route untuk menghandle proses forgot password
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+
+Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
